@@ -80,4 +80,8 @@ public class Times {
     public void setJogadores(List<Jogadores> jogadores) {
         this.jogadores = jogadores;
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

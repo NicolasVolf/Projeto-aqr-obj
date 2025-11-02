@@ -78,4 +78,8 @@ public class Jogadores {
     public void setTime(Times time) {
         this.time = time;
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

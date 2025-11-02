@@ -44,4 +44,9 @@ public class Campeonatos {
     public void setPartidas(List<Partidas> partidas) {
         this.partidas = partidas;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
 }

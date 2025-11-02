@@ -94,4 +94,8 @@ public class Partidas {
         this.estadio = estadio;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
 }

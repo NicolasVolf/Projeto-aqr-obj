@@ -46,4 +46,9 @@ public class Estadios {
     public void setPartidas(List<Partidas> partidas) {
         this.partidas = partidas;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
 }
