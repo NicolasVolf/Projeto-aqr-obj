@@ -23,16 +23,13 @@ public class Times {
     @JoinTable(name = "campeonatos_id")
     private List<Campeonatos> campeonatos = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "mandantes_id")
+    @OneToMany(mappedBy = "timeMandante")
     private List<Partidas> partidasMandante = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "visitante_id")
+    @OneToMany(mappedBy = "timeVisitante")
     private List<Partidas> partidasVisitante = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "jogadores_id")
+    @OneToMany(mappedBy = "time")
     private List<Jogadores> jogadores = new ArrayList<>();
 
     public List<Partidas> getPartidasMandante() {

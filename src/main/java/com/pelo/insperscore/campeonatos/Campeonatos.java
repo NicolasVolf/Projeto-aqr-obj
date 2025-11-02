@@ -18,8 +18,7 @@ public class Campeonatos {
     @JoinTable(name = "time_id")
     private List<Times> time = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "partidas_id")
+    @OneToMany(mappedBy = "campeonato")
     private List<Partidas> partidas = new ArrayList<>();
 
     public String getNome() {

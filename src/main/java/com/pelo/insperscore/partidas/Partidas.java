@@ -22,9 +22,9 @@ public class Partidas {
     @JoinTable(name = "jogadores_id")
     private List<Jogadores> jogadores = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "campeonatos_id")
-    private List<Campeonatos> campeonatos = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "campeonato_id")
+    private Campeonatos campeonato;
 
     @ManyToOne
     @JoinColumn(name = "estadio_id")
@@ -62,12 +62,12 @@ public class Partidas {
         this.jogadores = jogadores;
     }
 
-    public List<Campeonatos> getCampeonatos() {
-        return campeonatos;
+    public Campeonatos getCampeonato() {
+        return campeonato;
     }
 
-    public void setCampeonatos(List<Campeonatos> campeonatos) {
-        this.campeonatos = campeonatos;
+    public void setCampeonato(Campeonatos campeonato) {
+        this.campeonato = campeonato;
     }
 
     public Times getTimeMandante() {
