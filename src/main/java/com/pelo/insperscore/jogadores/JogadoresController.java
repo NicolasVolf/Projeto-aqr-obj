@@ -27,12 +27,8 @@ public class JogadoresController {
 
     @GetMapping("/{id}")
     public ResponseEntity<JogadorResponseDTO> getById(@PathVariable Integer id) {
-        try {
-            JogadorResponseDTO dto = jogadoresService.findById(id);
-            return ResponseEntity.ok(dto);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        JogadorResponseDTO dto = jogadoresService.getPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -44,21 +40,13 @@ public class JogadoresController {
     @PutMapping("/{id}")
     public ResponseEntity<JogadorResponseDTO> update(@PathVariable Integer id,
                                                      @Valid @RequestBody UpdateJogadorDTO dto) {
-        try {
-            JogadorResponseDTO updated = jogadoresService.update(id, dto);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        JogadorResponseDTO updated = jogadoresService.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        try {
-            jogadoresService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        jogadoresService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

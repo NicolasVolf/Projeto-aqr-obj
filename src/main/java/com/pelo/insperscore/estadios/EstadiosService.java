@@ -8,10 +8,11 @@ import com.pelo.insperscore.partidas.PartidasRepository;
 import com.pelo.insperscore.times.Times;
 import com.pelo.insperscore.times.TimesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EstadiosService {
@@ -29,55 +30,50 @@ public class EstadiosService {
         return estadiosRepository.findAll()
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public EstadioResponseDTO findById(Integer id) {
-        Estadios e = estadiosRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Estádio não encontrado com id: " + id));
+    public Estadios buscarPorId(Integer id) {
+        return estadiosRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public EstadioResponseDTO getPorId(Integer id) {
+        Estadios e = buscarPorId(id);
         return toResponse(e);
     }
 
     public EstadioResponseDTO create(CreateEstadioDTO dto) {
         Estadios e = new Estadios();
         e.setNome(dto.nome());
-
         if (dto.timeId() != null) {
             Times t = timesRepository.findById(dto.timeId())
-                    .orElseThrow(() -> new RuntimeException("Time não encontrado com id: " + dto.timeId()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
             e.setTime(t);
         }
-
         Estadios saved = estadiosRepository.save(e);
         return toResponse(saved);
     }
 
     public EstadioResponseDTO update(Integer id, UpdateEstadioDTO dto) {
-        Estadios existing = estadiosRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Estádio não encontrado com id: " + id));
-
-        if (dto.nome() != null) {
-            existing.setNome(dto.nome());
-        }
-
+        Estadios existing = buscarPorId(id);
+        if (dto.nome() != null) existing.setNome(dto.nome());
         if (dto.timeId() != null) {
             Times t = timesRepository.findById(dto.timeId())
-                    .orElseThrow(() -> new RuntimeException("Time não encontrado com id: " + dto.timeId()));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
             existing.setTime(t);
         }
-
         if (dto.partidaIds() != null) {
             List<Partidas> partidas = partidasRepository.findAllById(dto.partidaIds());
             existing.setPartidas(partidas);
         }
-
         Estadios updated = estadiosRepository.save(existing);
         return toResponse(updated);
     }
 
     public void delete(Integer id) {
         if (!estadiosRepository.existsById(id)) {
-            throw new RuntimeException("Estádio não encontrado com id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         estadiosRepository.deleteById(id);
     }

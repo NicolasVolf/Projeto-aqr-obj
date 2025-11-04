@@ -27,12 +27,8 @@ public class TimesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TimeResponseDTO> getById(@PathVariable Integer id) {
-        try {
-            TimeResponseDTO dto = timesService.findById(id);
-            return ResponseEntity.ok(dto);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        TimeResponseDTO dto = timesService.getPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -44,21 +40,13 @@ public class TimesController {
     @PutMapping("/{id}")
     public ResponseEntity<TimeResponseDTO> update(@PathVariable Integer id,
                                                   @Valid @RequestBody UpdateTimeDTO dto) {
-        try {
-            TimeResponseDTO updated = timesService.update(id, dto);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        TimeResponseDTO updated = timesService.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        try {
-            timesService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        timesService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

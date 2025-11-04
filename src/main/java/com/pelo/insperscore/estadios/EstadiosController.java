@@ -27,12 +27,8 @@ public class EstadiosController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EstadioResponseDTO> getById(@PathVariable Integer id) {
-        try {
-            EstadioResponseDTO dto = estadiosService.findById(id);
-            return ResponseEntity.ok(dto);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        EstadioResponseDTO dto = estadiosService.getPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -44,21 +40,13 @@ public class EstadiosController {
     @PutMapping("/{id}")
     public ResponseEntity<EstadioResponseDTO> update(@PathVariable Integer id,
                                                      @Valid @RequestBody UpdateEstadioDTO dto) {
-        try {
-            EstadioResponseDTO updated = estadiosService.update(id, dto);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        EstadioResponseDTO updated = estadiosService.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        try {
-            estadiosService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        estadiosService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

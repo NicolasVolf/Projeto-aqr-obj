@@ -8,7 +8,9 @@ import com.pelo.insperscore.times.dto.CreateTimeDTO;
 import com.pelo.insperscore.times.dto.TimeResponseDTO;
 import com.pelo.insperscore.times.dto.UpdateTimeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,12 +31,16 @@ public class TimesService {
         return timesRepository.findAll()
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public TimeResponseDTO findById(Integer id) {
-        Times t = timesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Time não encontrado com id: " + id));
+    public Times buscarPorId(Integer id) {
+        return timesRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public TimeResponseDTO getPorId(Integer id) {
+        Times t = buscarPorId(id);
         return toResponse(t);
     }
 
@@ -42,35 +48,29 @@ public class TimesService {
         Times t = new Times();
         t.setNome(dto.nome());
         t.setTitulos(dto.titulos());
-
         Times saved = timesRepository.save(t);
         return toResponse(saved);
     }
 
     public TimeResponseDTO update(Integer id, UpdateTimeDTO dto) {
-        Times existing = timesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Time não encontrado com id: " + id));
-
+        Times existing = buscarPorId(id);
         if (dto.nome() != null) existing.setNome(dto.nome());
         if (dto.titulos() != null) existing.setTitulos(dto.titulos());
-
         if (dto.campeonatoIds() != null) {
             List<Campeonatos> campeonatos = campeonatosRepository.findAllById(dto.campeonatoIds());
             existing.setCampeonatos(campeonatos);
         }
-
         if (dto.jogadorIds() != null) {
             List<Jogadores> jogadores = jogadoresRepository.findAllById(dto.jogadorIds());
             existing.setJogadores(jogadores);
         }
-
         Times updated = timesRepository.save(existing);
         return toResponse(updated);
     }
 
     public void delete(Integer id) {
         if (!timesRepository.existsById(id)) {
-            throw new RuntimeException("Time não encontrado com id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         timesRepository.deleteById(id);
     }
