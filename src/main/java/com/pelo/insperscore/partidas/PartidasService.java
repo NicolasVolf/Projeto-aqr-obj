@@ -134,6 +134,6 @@ public class PartidasService {
     }
 
     private PartidaResponseDTO toResponse(Partidas p) {
-        return new PartidaResponseDTO(p.getId(), p.getData(), p.getResultado());
+        return PartidaResponseDTO.fromEntity(p);
     }
 }
