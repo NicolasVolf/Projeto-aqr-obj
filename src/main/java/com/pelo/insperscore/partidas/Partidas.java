@@ -19,7 +19,11 @@ public class Partidas {
     private String resultado;
 
     @ManyToMany
-    @JoinTable(name = "jogadores_id")
+    @JoinTable(
+            name = "partidas_jogadores",
+            joinColumns = @JoinColumn(name = "partida_id"),
+            inverseJoinColumns = @JoinColumn(name = "jogador_id")
+    )
     private List<Jogadores> jogadores = new ArrayList<>();
 
     @ManyToOne

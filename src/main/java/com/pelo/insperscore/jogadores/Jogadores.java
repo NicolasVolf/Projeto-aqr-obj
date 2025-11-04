@@ -16,7 +16,10 @@ public class Jogadores {
     private String nome;
     private String posicao;
     private Integer numero;
-    private List<String> titulos;
+
+    @ElementCollection
+    private List<String> titulos = new ArrayList<>();
+
     private Integer idade;
     private String nacionalidade;
     @ManyToOne

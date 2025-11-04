@@ -20,7 +20,11 @@ public class Times {
     private List<String> titulos = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "campeonatos_id")
+    @JoinTable(
+            name = "times_campeonatos",
+            joinColumns = @JoinColumn(name = "time_id"),
+            inverseJoinColumns = @JoinColumn(name = "campeonato_id")
+    )
     private List<Campeonatos> campeonatos = new ArrayList<>();
 
     @OneToMany(mappedBy = "timeMandante")
