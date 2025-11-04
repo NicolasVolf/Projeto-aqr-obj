@@ -8,17 +8,33 @@ public record JogadorResponseDTO(
         String posicao,
         Integer numero,
         Integer idade,
-        String nacionalidade
+        String nacionalidade,
+        TimeSimplificadoDTO time
 ) {
-    public JogadorResponseDTO toDto(Jogadores jogadores) {
+    public static JogadorResponseDTO fromEntity(Jogadores jogadores) {
+        TimeSimplificadoDTO timeDto = jogadores.getTime() == null ? null :
+                new TimeSimplificadoDTO(jogadores.getTime().getId(), jogadores.getTime().getNome());
+
         return new JogadorResponseDTO(
                 jogadores.getId(),
                 jogadores.getNome(),
                 jogadores.getPosicao(),
                 jogadores.getNumero(),
                 jogadores.getIdade(),
-                jogadores.getNacionalidade()
+                jogadores.getNacionalidade(),
+                timeDto
         );
     }
+
+    // Mantém compatibilidade com método antigo
+    public JogadorResponseDTO toDto(Jogadores jogadores) {
+        return fromEntity(jogadores);
+    }
+
+    // DTO simplificado para time (evita referência circular)
+    public record TimeSimplificadoDTO(
+            Integer id,
+            String nome
+    ) {}
 }
 

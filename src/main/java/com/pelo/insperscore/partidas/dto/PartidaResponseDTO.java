@@ -3,7 +3,6 @@ package com.pelo.insperscore.partidas.dto;
 import com.pelo.insperscore.partidas.Partidas;
 import com.pelo.insperscore.campeonatos.dto.CampeonatoResponseDTO;
 import com.pelo.insperscore.estadios.dto.EstadioResponseDTO;
-import com.pelo.insperscore.times.dto.TimeResponseDTO;
 
 import java.time.LocalDate;
 
@@ -13,8 +12,8 @@ public record PartidaResponseDTO(
         String resultado,
         CampeonatoResponseDTO campeonato,
         EstadioResponseDTO estadio,
-        TimeResponseDTO timeMandante,
-        TimeResponseDTO timeVisitante
+        TimeSimplificadoDTO timeMandante,
+        TimeSimplificadoDTO timeVisitante
 ) {
     // Converte a entidade Partidas para este DTO, incluindo relacionamentos
     public static PartidaResponseDTO fromEntity(Partidas partidas) {
@@ -24,11 +23,11 @@ public record PartidaResponseDTO(
         EstadioResponseDTO estadioDto = partidas.getEstadio() == null ? null :
                 new EstadioResponseDTO(partidas.getEstadio().getId(), partidas.getEstadio().getNome());
 
-        TimeResponseDTO mandanteDto = partidas.getTimeMandante() == null ? null :
-                new TimeResponseDTO(partidas.getTimeMandante().getId(), partidas.getTimeMandante().getNome());
+        TimeSimplificadoDTO mandanteDto = partidas.getTimeMandante() == null ? null :
+                new TimeSimplificadoDTO(partidas.getTimeMandante().getId(), partidas.getTimeMandante().getNome());
 
-        TimeResponseDTO visitanteDto = partidas.getTimeVisitante() == null ? null :
-                new TimeResponseDTO(partidas.getTimeVisitante().getId(), partidas.getTimeVisitante().getNome());
+        TimeSimplificadoDTO visitanteDto = partidas.getTimeVisitante() == null ? null :
+                new TimeSimplificadoDTO(partidas.getTimeVisitante().getId(), partidas.getTimeVisitante().getNome());
 
         return new PartidaResponseDTO(
                 partidas.getId(),
@@ -40,4 +39,11 @@ public record PartidaResponseDTO(
                 visitanteDto
         );
     }
+
+    // DTO simplificado para time (evita referência circular)
+    public record TimeSimplificadoDTO(
+            Integer id,
+            String nome
+    ) {}
 }
+

@@ -80,13 +80,6 @@ public class JogadoresService {
     }
 
     private JogadorResponseDTO toResponse(Jogadores j) {
-        return new JogadorResponseDTO(
-                j.getId(),
-                j.getNome(),
-                j.getPosicao(),
-                j.getNumero(),
-                j.getIdade(),
-                j.getNacionalidade()
-        );
+        return JogadorResponseDTO.fromEntity(j);
     }
 }

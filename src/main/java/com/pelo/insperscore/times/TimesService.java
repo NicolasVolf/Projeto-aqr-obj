@@ -76,6 +76,6 @@ public class TimesService {
     }
 
     private TimeResponseDTO toResponse(Times t) {
-        return new TimeResponseDTO(t.getId(), t.getNome());
+        return TimeResponseDTO.fromEntity(t);
     }
 }
