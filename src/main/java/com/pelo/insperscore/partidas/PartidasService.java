@@ -7,8 +7,6 @@ import com.pelo.insperscore.campeonatos.Campeonatos;
 import com.pelo.insperscore.campeonatos.CampeonatosRepository;
 import com.pelo.insperscore.estadios.Estadios;
 import com.pelo.insperscore.estadios.EstadiosRepository;
-import com.pelo.insperscore.jogadores.Jogadores;
-import com.pelo.insperscore.jogadores.JogadoresRepository;
 import com.pelo.insperscore.times.Times;
 import com.pelo.insperscore.times.TimesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +20,6 @@ public class PartidasService {
 
     @Autowired
     private PartidasRepository partidasRepository;
-
-    @Autowired
-    private JogadoresRepository jogadoresRepository;
 
     @Autowired
     private CampeonatosRepository campeonatosRepository;
@@ -52,11 +47,6 @@ public class PartidasService {
         Partidas p = new Partidas();
         p.setData(dto.data());
         p.setResultado(dto.resultado());
-
-        if (dto.jogadorIds() != null && !dto.jogadorIds().isEmpty()) {
-            List<Jogadores> jogadores = jogadoresRepository.findAllById(dto.jogadorIds());
-            p.setJogadores(jogadores);
-        }
 
         if (dto.campeonatoId() != null) {
             Campeonatos c = campeonatosRepository.findById(dto.campeonatoId())
@@ -93,10 +83,6 @@ public class PartidasService {
         if (dto.data() != null) existing.setData(dto.data());
         if (dto.resultado() != null) existing.setResultado(dto.resultado());
 
-        if (dto.jogadorIds() != null) {
-            List<Jogadores> jogadores = jogadoresRepository.findAllById(dto.jogadorIds());
-            existing.setJogadores(jogadores);
-        }
 
         if (dto.campeonatoId() != null) {
             Campeonatos c = campeonatosRepository.findById(dto.campeonatoId())

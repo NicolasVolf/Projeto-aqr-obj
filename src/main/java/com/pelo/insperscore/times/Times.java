@@ -40,6 +40,10 @@ public class Times {
         return partidasMandante;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setPartidasMandante(List<Partidas> partidasMandante) {
         this.partidasMandante = partidasMandante;
     }

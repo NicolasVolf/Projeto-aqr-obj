@@ -14,8 +14,7 @@ public class Campeonatos {
     private Integer id;
     private String nome;
 
-    @ManyToMany
-    @JoinTable(name = "time_id")
+    @ManyToMany(mappedBy = "campeonatos")
     private List<Times> time = new ArrayList<>();
 
     @OneToMany(mappedBy = "campeonato")
@@ -35,6 +34,10 @@ public class Campeonatos {
 
     public void setTime(List<Times> time) {
         this.time = time;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<Partidas> getPartidas() {

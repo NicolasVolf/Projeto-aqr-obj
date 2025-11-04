@@ -2,13 +2,10 @@ package com.pelo.insperscore.partidas;
 
 import com.pelo.insperscore.campeonatos.Campeonatos;
 import com.pelo.insperscore.estadios.Estadios;
-import com.pelo.insperscore.jogadores.Jogadores;
 import com.pelo.insperscore.times.Times;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Partidas {
@@ -17,14 +14,6 @@ public class Partidas {
     private Integer id;
     private LocalDate data;
     private String resultado;
-
-    @ManyToMany
-    @JoinTable(
-            name = "partidas_jogadores",
-            joinColumns = @JoinColumn(name = "partida_id"),
-            inverseJoinColumns = @JoinColumn(name = "jogador_id")
-    )
-    private List<Jogadores> jogadores = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "campeonato_id")
@@ -56,14 +45,6 @@ public class Partidas {
 
     public void setResultado(String resultado) {
         this.resultado = resultado;
-    }
-
-    public List<Jogadores> getJogadores() {
-        return jogadores;
-    }
-
-    public void setJogadores(List<Jogadores> jogadores) {
-        this.jogadores = jogadores;
     }
 
     public Campeonatos getCampeonato() {

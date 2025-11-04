@@ -1,5 +1,6 @@
 package com.pelo.insperscore.jogadores;
 
+import com.pelo.insperscore.partidas.Partidas;
 import com.pelo.insperscore.times.Times;
 import jakarta.persistence.*;
 
@@ -19,12 +20,15 @@ public class Jogadores {
 
     @ElementCollection
     private List<String> titulos = new ArrayList<>();
-
     private Integer idade;
     private String nacionalidade;
     @ManyToOne
     @JoinColumn(name = "time_id")
     private Times time;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
